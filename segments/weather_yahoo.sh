@@ -5,7 +5,7 @@
 # 1. Go to Yahoo weather http://weather.yahoo.com/
 # 2. Find the weather for you location
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the number "12796587"
-location="12796587"
+location="2478307"
 
 # Can be any of {c,f,k}.
 unit="f"
@@ -14,7 +14,7 @@ unit="f"
 update_period=600
 
 # Cache file.
-tmp_file="${tp_tmpdir}/weather_yahoo.txt"
+tmp_file="${TMPDIR}/weather_yahoo.txt"
 
 get_condition_symbol() {
     local condition=$(echo "$1" | tr '[:upper:]' '[:lower:]')
@@ -29,7 +29,7 @@ get_condition_symbol() {
             echo "☼"
         fi
         ;;
-    "mixed rain and snow" | "mixed rain and sleet" | "freezing drizzle" | "drizzle" | "freezing rain" | "showers" | "mixed rain and hail" | "scattered showers" | "isolated thundershowers" | "thundershowers")
+    "mixed rain and snow" | "mixed rain and sleet" | "freezing drizzle" | "drizzle" | "freezing rain" | "showers" | "mixed rain and hail" | "scattered showers" | "isolated thundershowers" | "thundershowers" | "light rain")
             #echo "☂"
             echo "☔"
         ;;
@@ -99,8 +99,8 @@ if [ -z "$degree" ]; then
             exit 1
         fi
 # <yweather:units temperature="F" distance="mi" pressure="in" speed="mph"/>
-    unit=$(echo "$weather_data" | grep -PZo "<yweather:units [^<>]*/>" | sed 's/.*temperature="\([^"]*\)".*/\1/')
-    condition=$(echo "$weather_data" | grep -PZo "<yweather:condition [^<>]*/>")
+    unit=$(echo "$weather_data" | grep -Zo "<yweather:units [^<>]*/>" | sed 's/.*temperature="\([^"]*\)".*/\1/')
+    condition=$(echo "$weather_data" | grep -Zo "<yweather:condition [^<>]*/>")
 # <yweather:condition  text="Clear"  code="31"  temp="66"  date="Mon, 01 Oct 2012 8:00 pm CST" />
     degree=$(echo "$condition" | sed 's/.*temp="\([^"]*\)".*/\1/')
     condition=$(echo "$condition" | sed 's/.*text="\([^"]*\)".*/\1/')

@@ -18,41 +18,41 @@ mute_status_check "right"
 # Segment
 # Comment/uncomment the register function call to enable or disable a segment.
 
-declare -A pwd
-pwd+=(["script"]="${segments_path}/pwd.sh")
-pwd+=(["foreground"]="colour211")
-pwd+=(["background"]="colour89")
-pwd+=(["separator"]="${separator_left_bold}")
-#register_segment "pwd"
+# declare -A pwd
+# pwd+=(["script"]="${segments_path}/pwd.sh")
+# pwd+=(["foreground"]="colour211")
+# pwd+=(["background"]="colour89")
+# pwd+=(["separator"]="${separator_left_bold}")
+# #register_segment "pwd"
 
-declare -A mail_count
-mail_count+=(["script"]="${segments_path}/mail_count_maildir.sh")
-#mail_count+=(["script"]="${segments_path}/mail_count_gmail.sh")
-#mail_count+=(["script"]="${segments_path}/mail_count_apple_mail.sh")
-mail_count+=(["foreground"]="white")
-mail_count+=(["background"]="red")
-mail_count+=(["separator"]="${separator_left_bold}")
-register_segment "mail_count"
+# declare -A mail_count
+# mail_count+=(["script"]="${segments_path}/mail_count_maildir.sh")
+# #mail_count+=(["script"]="${segments_path}/mail_count_gmail.sh")
+# #mail_count+=(["script"]="${segments_path}/mail_count_apple_mail.sh")
+# mail_count+=(["foreground"]="white")
+# mail_count+=(["background"]="red")
+# mail_count+=(["separator"]="${separator_left_bold}")
+# register_segment "mail_count"
 
-declare -A now_playing
-if [ "$PLATFORM" == "linux" ]; then
-	now_playing+=(["script"]="${segments_path}/np_mpd.sh")
-	#now_playing+=(["script"]="${segments_path}/np_mpd_simple.sh")
-	#now_playing+=(["script"]="${segments_path}/np_mocp.sh")
-	#now_playing+=(["script"]="${segments_path}/np_spotify_linux_wine.sh")
-	#now_playing+=(["script"]="${segments_path}/np_spotify_linux_native.sh")
-	#now_playing+=(["script"]="${segments_path}/np_rhythmbox.sh")
-	#now_playing+=(["script"]="${segments_path}/np_banshee.sh")
-	#now_playing+=(["script"]="${segments_path}/np_audacious.sh")
-elif [ "$PLATFORM" == "mac" ]; then
-	now_playing+=(["script"]="${segments_path}/np_itunes_mac.sh")
-fi
-if [[ ${now_playing["script"]} ]]; then
-	now_playing+=(["foreground"]="colour37")
-	now_playing+=(["background"]="colour234")
-	now_playing+=(["separator"]="${separator_left_bold}")
-	register_segment "now_playing"
-fi
+# declare -A now_playing
+# if [ "$PLATFORM" == "linux" ]; then
+#   now_playing+=(["script"]="${segments_path}/np_mpd.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_mpd_simple.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_mocp.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_spotify_linux_wine.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_spotify_linux_native.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_rhythmbox.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_banshee.sh")
+#   #now_playing+=(["script"]="${segments_path}/np_audacious.sh")
+# elif [ "$PLATFORM" == "mac" ]; then
+#   now_playing+=(["script"]="${segments_path}/np_itunes_mac.sh")
+# fi
+# if [[ ${now_playing["script"]} ]]; then
+#   now_playing+=(["foreground"]="colour37")
+#   now_playing+=(["background"]="colour234")
+#   now_playing+=(["separator"]="${separator_left_bold}")
+#   register_segment "now_playing"
+# fi
 
 declare -A cpu
 cpu+=(["script"]="${segments_path}/cpu.sh")
@@ -61,12 +61,12 @@ cpu+=(["background"]="colour240")
 cpu+=(["separator"]="${separator_left_bold}")
 #register_segment "cpu"
 
-declare -A load
-load+=(["script"]="${segments_path}/load.sh")
-load+=(["foreground"]="colour167")
-load+=(["background"]="colour237")
-load+=(["separator"]="${separator_left_bold}")
-register_segment "load"
+# declare -A load
+# load+=(["script"]="${segments_path}/load.sh")
+# load+=(["foreground"]="colour167")
+# load+=(["background"]="colour237")
+# load+=(["separator"]="${separator_left_bold}")
+# register_segment "load"
 
 declare -A battery
 if [ "$PLATFORM" == "mac" ]; then
@@ -77,7 +77,7 @@ fi
 battery+=(["foreground"]="colour127")
 battery+=(["background"]="colour137")
 battery+=(["separator"]="${separator_left_bold}")
-#register_segment "battery"
+register_segment "battery"
 
 declare -A weather
 weather+=(["script"]="${segments_path}/weather_yahoo.sh")
