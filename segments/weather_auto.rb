@@ -1,6 +1,9 @@
 #! /usr/bin/env ruby
 # encoding: utf-8
 
+# GeoLiteCity.dat is available from http://www.maxmind.com/download/geoip/database/
+# Use geoip-c gem: https://rubygems.org/gems/geoip-c
+
 require 'geoip'
 require 'nokogiri'
 require 'open-uri'
