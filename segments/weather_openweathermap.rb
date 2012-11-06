@@ -5,7 +5,6 @@
 # Use geoip-c gem: https://rubygems.org/gems/geoip-c
 
 require 'geoip'
-require 'nokogiri'
 require 'open-uri'
 require 'logger'
 require 'json'
