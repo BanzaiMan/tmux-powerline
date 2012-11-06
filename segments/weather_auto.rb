@@ -7,8 +7,18 @@
 require 'geoip'
 require 'nokogiri'
 require 'open-uri'
+require 'logger'
 
 unit='f' # or 'c'
+@verbose = ENV['DEBUG']
+if @verbose
+  @log = Logger.new(STDERR)
+end
+
+def debug(msg, level = Logger::INFO)
+  return unless @log
+  @log.add(level) { msg } if @verbose
+end
 
 # see comments at the bottom for description
 ICONS=%w(
@@ -77,17 +87,22 @@ temp='?'
 
 begin
   ip = open('http://whatismyip.akamai.com/').read
+  debug "ip: #{ip}"
   db = GeoIP::City.new '/usr/local/share/GeoIP/GeoLiteCity.dat'
   geo = db.look_up ip
+  debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
   doc = Nokogiri::XML(open("http://where.yahooapis.com/geocode?q=#{geo[:latitude]},#{geo[:longitude]}&gflags=R$"))
   woeid = doc.xpath('//Result/woeid').first.text
+  debug "woeid: #{woeid}"
 
   data = Nokogiri::XML(open("http://weather.yahooapis.com/forecastrss?w=#{woeid}&u=#{unit}"))
   condition = data.xpath('//yweather:condition').first
+  debug "attr: #{condition.attributes}"
   temp = condition.attributes["temp"].value
   code = condition.attributes["code"].value.to_i
 
-rescue
+rescue => e
+  debug e.backtrace
 end
 
 puts "#{ICONS[code]} #{temp}°#{unit.upcase}"
