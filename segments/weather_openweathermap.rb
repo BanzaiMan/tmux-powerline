@@ -64,17 +64,17 @@ begin
   station = data["list"].first # only 1 station
   weather = station["weather"].first # look at only the first set
   code = weather["id"]
-  temp_k  = station["main"]["temp"] # in Kelvin
+  temp_k  = station["main"]["temp"] || 0 # in Kelvin
   temp = unit.upcase == 'F' ? temp_k.to_fahrenheit : temp_k.to_c
 
 rescue => e
-  debug e.backtrace
+  debug e.backtrace.to_s
 end
 
 icon = (code / 100 == 8) ? CLEAR[code] : ICONS[code / 100]
 
 
-puts "#{icon} #{"%3.1f" % temp}°#{unit.upcase}"
+puts "#{icon} #{"%3.1f" % temp rescue '?'}°#{unit.upcase}"
 
 
 # Codes: http://openweathermap.org/wiki/API/Weather_Condition_Codes
