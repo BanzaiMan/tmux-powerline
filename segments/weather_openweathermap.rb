@@ -57,7 +57,7 @@ temp='?'
 begin
   ip = open('http://whatismyip.akamai.com/').read
   debug "ip: #{ip}"
-  db = GeoIP::City.new '/usr/local/share/GeoIP/GeoLiteCity.dat'
+  db = GeoIP::City.new '/usr/share/GeoIP/GeoLiteCity.dat'
   geo = db.look_up ip
   debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
   data = JSON.parse(open("http://openweathermap.org/data/2.1/find/city?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)

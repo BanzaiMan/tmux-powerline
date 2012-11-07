@@ -47,7 +47,7 @@ parse_git_branch() {
 		echo -n "$git_svn_colour"
 	fi
 	# TODO pass colour arguments as paramters/globals to segments?
-	echo "]${branch_symbol} #[fg=colour42]${branch}"
+	echo "]${branch_symbol} #[fg=colour52]${branch}"
 }
 
 # Show SVN branch.
