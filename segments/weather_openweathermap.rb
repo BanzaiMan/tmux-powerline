@@ -9,7 +9,7 @@ require 'open-uri'
 require 'logger'
 require 'json'
 
-unit='f' # or 'c'
+unit='c' # or 'c'
 @verbose = ENV['DEBUG']
 if @verbose
   @log = Logger.new(STDERR)
@@ -60,18 +60,21 @@ begin
   db = GeoIP::City.new '/usr/local/share/GeoIP/GeoLiteCity.dat'
   geo = db.look_up ip
   debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
-  data = JSON.parse(open("http://openweathermap.org/data/2.1/find/city?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)
-  station = data["list"].first # only 1 station
-  weather = station["weather"].first # look at only the first set
+  data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)
+  debug "data: #{data}"
+#  station = data["list"].first # only 1 station
+  weather = data["weather"].first # look at only the first set
+  debug "weather: #{weather}"
   code = weather["id"]
-  temp_k  = station["main"]["temp"] || 0 # in Kelvin
+  temp_k  = data["main"]["temp"] rescue 0 # in Kelvin
   temp = unit.upcase == 'F' ? temp_k.to_fahrenheit : temp_k.to_c
 
 rescue => e
+  debug e
   debug e.backtrace.to_s
 end
 
-icon = (code / 100 == 8) ? CLEAR[code] : ICONS[code / 100]
+icon = (code / 100 == 8) ? CLEAR[code] : ICONS[code / 100] rescue '?'
 
 
 puts "#{icon} #{"%3.1f" % temp rescue '?'}°#{unit.upcase}"
