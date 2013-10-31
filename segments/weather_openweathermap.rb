@@ -9,7 +9,7 @@ require 'open-uri'
 require 'logger'
 require 'json'
 
-unit='c' # or 'c'
+unit='c' # 'f' or 'c'
 @verbose = ENV['DEBUG']
 if @verbose
   @log = Logger.new(STDERR)
@@ -62,7 +62,6 @@ begin
   debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
   data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)
   debug "data: #{data}"
-#  station = data["list"].first # only 1 station
   weather = data["weather"].first # look at only the first set
   debug "weather: #{weather}"
   code = weather["id"]
