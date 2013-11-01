@@ -22,7 +22,7 @@ fi
 
 if [ -z "$weather" ]; then
   cd `dirname $0`
-  weather=$(rvm 1.9.3 do bundle exec $PWD/weather_openweathermap.rb)
+  weather=$(rvm 2.0.0 do bundle exec $PWD/weather_openweathermap.rb)
   if [ "$?" -eq "0" ]; then
     echo "${weather}" > $tmp_file
   elif [ -f "${tmp_file}" ]; then
