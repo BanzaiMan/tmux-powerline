@@ -60,6 +60,7 @@ begin
   db = GeoIP::City.new '/usr/local/share/GeoIP/GeoLiteCity.dat'
   geo = db.look_up ip
   debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
+  debug "URL: http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1"
   data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)
   debug "data: #{data}"
   weather = data["weather"].first # look at only the first set
