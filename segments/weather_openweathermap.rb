@@ -1,10 +1,6 @@
 #! /usr/bin/env ruby
 # encoding: utf-8
 
-# GeoLiteCity.dat is available from http://www.maxmind.com/download/geoip/database/
-# Use geoip-c gem: https://rubygems.org/gems/geoip-c
-
-require 'geoip'
 require 'open-uri'
 require 'logger'
 require 'json'
@@ -55,13 +51,11 @@ code=900
 temp='?'
 
 begin
-  ip = open('http://whatismyip.akamai.com/').read
-  debug "ip: #{ip}"
-  db = GeoIP::City.new '/usr/local/share/GeoIP/GeoLiteCity.dat'
-  geo = db.look_up ip
-  debug "latitude: #{geo[:latitude]} longitude: #{geo[:longitude]}"
-  debug "URL: http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1"
-  data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{geo[:latitude]}&lon=#{geo[:longitude]}&cnt=1").read)
+  whereami = File.join(Dir.pwd, 'whereami')
+  lon, lat = `#{whereami}`.chomp.split ','
+  debug "latitude: #{lon} longitude: #{lat}"
+  debug "URL: http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1"
+  data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1").read)
   debug "data: #{data}"
   weather = data["weather"].first # look at only the first set
   debug "weather: #{weather}"
