@@ -51,14 +51,11 @@ code=900
 temp='?'
 
 begin
-  whereami = File.join(Dir.pwd, 'whereami')
-  lon, lat = `#{whereami}`.chomp.split ','
+  lon, lat = `#{File.join(File.dirname(__FILE__), 'whereami')}`.chomp.split ','
   debug "latitude: #{lon} longitude: #{lat}"
-  debug "URL: http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1"
-  data = JSON.parse(open("http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1").read)
-  debug "data: #{data}"
-  weather = data["weather"].first # look at only the first set
-  debug "weather: #{weather}"
+  url = "http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1".tap {|x| debug "URL: #{x}"}
+  data = JSON.parse(open(url).read).tap {|x| debug "data: #{x}"}
+  weather = data["weather"].first.tap {|x| debug "weather: #{x}"} # look at only the first set
   code = weather["id"]
   temp_k  = data["main"]["temp"] rescue 0 # in Kelvin
   temp = unit.upcase == 'F' ? temp_k.to_fahrenheit : temp_k.to_c
