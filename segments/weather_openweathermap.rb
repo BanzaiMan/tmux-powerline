@@ -5,6 +5,8 @@ require 'open-uri'
 require 'logger'
 require 'json'
 
+API_KEY='278917c349fac70b136227aa52006592'
+
 unit='c' # 'f' or 'c'
 @verbose = ENV['DEBUG']
 if @verbose
@@ -51,14 +53,14 @@ code=900
 temp='?'
 
 begin
-  lon, lat = `#{File.join(File.dirname(__FILE__), 'whereami')}`.chomp.split ','
+  lon, lat = `#{File.join(File.dirname(__FILE__), 'CoreLocationCLI')}`.chomp.split
+  fail unless $?.success?
   debug "latitude: #{lon} longitude: #{lat}"
-  url = "http://openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&cnt=1".tap {|x| debug "URL: #{x}"}
+  url = "http://api.openweathermap.org/data/2.5/weather?lat=#{lon}&lon=#{lat}&appid=#{API_KEY}&cnt=1&units=metric".tap {|x| debug "URL: #{x}"}
   data = JSON.parse(open(url).read).tap {|x| debug "data: #{x}"}
   weather = data["weather"].first.tap {|x| debug "weather: #{x}"} # look at only the first set
   code = weather["id"]
-  temp_k  = data["main"]["temp"] rescue 0 # in Kelvin
-  temp = unit.upcase == 'F' ? temp_k.to_fahrenheit : temp_k.to_c
+  temp  = data["main"]["temp"]
 
 rescue => e
   debug e
